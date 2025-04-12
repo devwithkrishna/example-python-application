@@ -40,7 +40,8 @@ async def create_item(item: UserColorEntry):
     """Create an item with a username and users favourite colour and return it."""
     user_colour.append(item)
     print(user_colour)
-    logger.info(item)
+    # Sanitize log message to prevent log injection
+    logger.info("New user-color entry added: username=%s, color=%s", item.username, item.color)
     return item
 
 # List all user_colour mappings
