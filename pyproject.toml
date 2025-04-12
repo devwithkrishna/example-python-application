@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "example-python-application"
+version = "0.1.0"
+description = "Sample Python Application"
+authors = ["githubofkrishnadhas <krishnadhasnk1997@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = {extras = ["standard"], version = "*"}
+uvicorn = "*"
+python-json-logger = "*"
+pydantic = "^2.11.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-# from pylogs import get_logger
-from logging_config import setup_logging
+from app.logging_config import setup_logging
+from app.data_model import UserColorEntry
 
 # Setup logging
 logger = setup_logging()
@@ -15,11 +15,13 @@ app = FastAPI(
     description="Submit your name and favorite color",
     version="1.0.0"
 )
+# In-memory database (for demonstration purposes)
+user_colour = []
 
 @app.get("/")
 async def root():
+    """Default end point.Serves welcome message for the API"""
     logger.info("Root endpoint accessed")
-    # logger = logging.getLogger("myapp")
     logger.info("Root endpoint was accessed!")
 
     return {"message": "Hello World"}
@@ -32,12 +34,19 @@ async def healthcheck():
     logger.info("Healthcheck endpoint accessed")
     return {"status": "ok"}
 
-# @app.middleware("http")
-# async def log_requests(request: Request, call_next):
-#     logger = logging.getLogger("myapp")
-#     logger.info(f"Received request: {request.method} {request.url}")
-#     response = await call_next(request)
-#     logger.info(f"Response status: {response.status_code}")
-#     return response
+# Create an user_colour mapping
+@app.post("/usercolour/", response_model=UserColorEntry)
+async def create_item(item: UserColorEntry):
+    """Create an item with a username and users favourite colour and return it."""
+    user_colour.append(item)
+    print(user_colour)
+    logger.info(item)
+    return item
 
-
+# List all user_colour mappings
+@app.get("/allusercolour/")
+async def get_all_user_colour():
+    """Get all user_colour mappings."""
+    logger.info("All user_colour mappings accessed")
+    logger.info(user_colour)
+    return user_colour
