@@ -41,7 +41,9 @@ async def create_item(item: UserColorEntry):
     user_colour.append(item)
     print(user_colour)
     # Sanitize log message to prevent log injection
-    logger.info("New user-color entry added: username=%s, color=%s", item.username, item.color)
+    sanitized_username = item.username.replace('\r\n', '').replace('\n', '')
+    sanitized_color = item.color.replace('\r\n', '').replace('\n', '')
+    logger.info("New user-color entry added: username=%s, color=%s", sanitized_username, sanitized_color)
     return item
 
 # List all user_colour mappings
